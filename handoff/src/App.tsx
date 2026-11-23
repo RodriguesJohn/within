@@ -1063,6 +1063,7 @@ function EmbedView({ resource }: { resource: Resource }) {
         <div className="flex min-w-0 flex-col">
           <h1 className="type-section">{resource.title}</h1>
           <p className="truncate type-meta text-muted-foreground">
+            {isFigma ? "" : "Live design session · "}
             {hostOf(resource.url)}
           </p>
         </div>

@@ -67,7 +67,7 @@ export const prototypes: Prototype[] = [
   {
     id: "prototype-1",
     title: "Prototype 1",
-    url: "https://within-prototype.vercel.app",
+    url: "https://within-design.vercel.app",
     name: "Board, Linear style",
     idea: "Agents sit on the same board as people, and an inbox surfaces what needs a human.",
     tradeoff: "Matches how teams already work, and scales to a lot of tickets.",
