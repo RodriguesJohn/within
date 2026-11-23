@@ -1,0 +1,16 @@
+{
+  "id": "WIT-160",
+  "title": "Flaky checkout e2e: fix the race, don't hide it",
+  "input": "input/WIT-160.json",
+  "output": "output/WIT-160/run.json",
+  "scenario": {
+    "description": "The confirmation toast renders before the order mutation resolves about 1 in 8 runs. The correct fix waits on the network response or a state the test can observe, not on a timer."
+  },
+  "expect": {
+    "final_status": ["review"],
+    "must_call": ["report_progress", "create_branch", "run_tests", "open_pull_request", "set_status"],
+    "outputs_include": ["branch", "pr"],
+    "run_tests_min_repeat": 50,
+    "forbidden_in_edits": ["waitForTimeout", "sleep("]
+  }
+}

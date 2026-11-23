@@ -1,0 +1,37 @@
+{
+  "name": "open_pull_request",
+  "description": "Push the branch and open a GitHub pull request.",
+  "input_schema": {
+    "type": "object",
+    "properties": {
+      "title": {
+        "type": "string"
+      },
+      "body": {
+        "type": "string",
+        "description": "Summary, acceptance-criteria checklist, how it was tested."
+      },
+      "draft": {
+        "type": "boolean",
+        "default": false
+      },
+      "reviewers": {
+        "type": "array",
+        "items": {
+          "type": "string"
+        }
+      }
+    },
+    "required": [
+      "title",
+      "body"
+    ]
+  },
+  "requires_approval": false,
+  "placeholder": true,
+  "api": {
+    "provider": "github",
+    "method": "POST",
+    "endpoint": "/repos/{owner}/{repo}/pulls"
+  }
+}

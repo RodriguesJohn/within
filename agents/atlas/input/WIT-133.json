@@ -1,0 +1,19 @@
+{
+  "ticket": {
+    "id": "WIT-133",
+    "title": "Rate limit the public API",
+    "team": "Platform",
+    "priority": "high",
+    "labels": ["api"],
+    "description": "The public REST API has no rate limiting. Add per-API-key limits and return 429 with Retry-After.",
+    "acceptance_criteria": [
+      "Per-key limit of 100 req/min with a burst allowance",
+      "429 response includes Retry-After and X-RateLimit-* headers",
+      "Load test shows p95 latency overhead under 5ms"
+    ]
+  },
+  "assigned_by": "john",
+  "assigned_at": "2026-11-20T09:00:00Z",
+  "context": { "repo": "within/app", "branch_base": "main", "links": [] },
+  "messages": []
+}

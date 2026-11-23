@@ -1,0 +1,30 @@
+{
+  "name": "figma_post_comment",
+  "description": "Comment on a frame, e.g. a question to the designer or a link to the PR that implements it.",
+  "input_schema": {
+    "type": "object",
+    "properties": {
+      "file_key": {
+        "type": "string",
+        "description": "Figma file key from the URL"
+      },
+      "node_id": {
+        "type": "string"
+      },
+      "message": {
+        "type": "string"
+      }
+    },
+    "required": [
+      "file_key",
+      "message"
+    ]
+  },
+  "requires_approval": false,
+  "placeholder": true,
+  "api": {
+    "provider": "figma",
+    "method": "POST",
+    "endpoint": "/v1/files/{file_key}/comments"
+  }
+}

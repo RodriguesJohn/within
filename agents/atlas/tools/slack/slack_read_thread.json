@@ -1,0 +1,26 @@
+{
+  "name": "slack_read_thread",
+  "description": "Read replies in a Slack thread the agent posted, e.g. when someone answers a highlight in Slack instead of in the ticket.",
+  "input_schema": {
+    "type": "object",
+    "properties": {
+      "channel": {
+        "type": "string"
+      },
+      "thread_ts": {
+        "type": "string"
+      }
+    },
+    "required": [
+      "channel",
+      "thread_ts"
+    ]
+  },
+  "requires_approval": false,
+  "placeholder": true,
+  "api": {
+    "provider": "slack",
+    "method": "GET",
+    "endpoint": "/conversations.replies"
+  }
+}

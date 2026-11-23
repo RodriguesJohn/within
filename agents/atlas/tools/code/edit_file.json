@@ -1,0 +1,14 @@
+{
+  "name": "edit_file",
+  "description": "Create or edit a file on the working branch. Fails on main.",
+  "input_schema": {
+    "type": "object",
+    "properties": {
+      "path": { "type": "string" },
+      "old_text": { "type": "string", "description": "Exact text to replace. Omit to create a new file." },
+      "new_text": { "type": "string" }
+    },
+    "required": ["path", "new_text"]
+  },
+  "requires_approval": false
+}

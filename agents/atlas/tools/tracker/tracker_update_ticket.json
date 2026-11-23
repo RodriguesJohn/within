@@ -1,0 +1,38 @@
+{
+  "name": "tracker_update_ticket",
+  "description": "Update ticket fields the agent may change: labels, linked tickets, estimate. Status and progress go through set_status and report_progress.",
+  "input_schema": {
+    "type": "object",
+    "properties": {
+      "ticket_id": {
+        "type": "string",
+        "description": "Ticket id, e.g. WIT-142"
+      },
+      "labels": {
+        "type": "array",
+        "items": {
+          "type": "string"
+        }
+      },
+      "linked": {
+        "type": "array",
+        "items": {
+          "type": "string"
+        }
+      },
+      "estimate": {
+        "type": "string"
+      }
+    },
+    "required": [
+      "ticket_id"
+    ]
+  },
+  "requires_approval": false,
+  "placeholder": true,
+  "api": {
+    "provider": "tracker",
+    "method": "PATCH",
+    "endpoint": "/v1/tickets/{ticket_id}"
+  }
+}

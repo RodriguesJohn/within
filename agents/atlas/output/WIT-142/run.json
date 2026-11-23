@@ -1,0 +1,49 @@
+{
+  "ticket_id": "WIT-142",
+  "agent": "atlas",
+  "status": "progress",
+  "steps": [
+    "Read ticket and acceptance criteria",
+    "Map the existing auth flow",
+    "Add Okta OIDC client",
+    "Wire the callback route",
+    "Configure staging env",
+    "Write integration tests",
+    "Open pull request"
+  ],
+  "step": 2,
+  "now_doing": "Adding the Okta OIDC client next to the email provider",
+  "log": [
+    { "t": "10:02", "kind": "start", "text": "Picked up ticket" },
+    { "t": "10:04", "kind": "step", "text": "Finished: Read ticket and acceptance criteria" },
+    { "t": "10:09", "kind": "step", "text": "Finished: Map the existing auth flow" }
+  ],
+  "trace": [
+    { "t": "10:02", "step": 0, "kind": "thought", "text": "SSO behind a flag, email stays default. Need to find where providers are registered." },
+    { "t": "10:02", "step": 0, "kind": "tool_call", "id": "tc_01", "tool": "report_progress",
+      "input": { "steps": ["Read ticket and acceptance criteria", "Map the existing auth flow", "Add Okta OIDC client", "Wire the callback route", "Configure staging env", "Write integration tests", "Open pull request"], "step": 0, "now_doing": "Reading the ticket" },
+      "output": { "ok": true } },
+    { "t": "10:05", "step": 1, "kind": "tool_call", "id": "tc_02", "tool": "search_code",
+      "input": { "pattern": "providers:\\s*\\[", "path": "src/server/auth" },
+      "output": { "matches": [{ "path": "src/server/auth/config.ts", "line": 18, "text": "  providers: [EmailProvider({ ... })]," }] } },
+    { "t": "10:06", "step": 1, "kind": "tool_call", "id": "tc_03", "tool": "read_file",
+      "input": { "path": "src/server/auth/config.ts" },
+      "output": { "lines": 64, "summary": "Auth.js config with EmailProvider, Prisma adapter, session callback that attaches workspaceId." } },
+    { "t": "10:08", "step": 1, "kind": "tool_call", "id": "tc_04", "tool": "list_env_vars",
+      "input": { "environment": "staging" },
+      "output": { "names": ["DATABASE_URL", "AUTH_SECRET", "EMAIL_SERVER", "OKTA_CLIENT_ID", "OKTA_ISSUER"] } },
+    { "t": "10:08", "step": 1, "kind": "thought", "text": "Staging has OKTA_CLIENT_ID and OKTA_ISSUER but no OKTA_CLIENT_SECRET. That will block step 5. Flagging it now and continuing." },
+    { "t": "10:10", "step": 2, "kind": "tool_call", "id": "tc_05", "tool": "create_branch",
+      "input": { "name": "atlas/wit-142-okta-sso" },
+      "output": { "ok": true, "head": "4be1c09" } },
+    { "t": "10:12", "step": 2, "kind": "tool_call", "id": "tc_06", "tool": "edit_file",
+      "input": { "path": "src/server/auth/config.ts", "old_text": "  providers: [EmailProvider({ ... })],", "new_text": "  providers: [\n    EmailProvider({ ... }),\n    ...(flags.sso ? [Okta({ clientId: env.OKTA_CLIENT_ID, clientSecret: env.OKTA_CLIENT_SECRET, issuer: env.OKTA_ISSUER })] : []),\n  ]," },
+      "output": { "ok": true, "additions": 3, "deletions": 1 } }
+  ],
+  "outputs": [{ "type": "branch", "label": "atlas/wit-142-okta-sso" }],
+  "chat": [
+    { "from": "agent", "t": "10:02", "text": "Picked this up. Plan: add an Okta OIDC client next to email login, gated behind the `sso` flag." },
+    { "from": "user", "t": "10:05", "text": "Sounds good. Keep email login as a fallback." },
+    { "from": "agent", "t": "10:05", "text": "Will do. Email login stays the default until SSO is verified for each workspace." }
+  ]
+}

@@ -1,0 +1,14 @@
+{
+  "name": "read_file",
+  "description": "Read a file from the working branch.",
+  "input_schema": {
+    "type": "object",
+    "properties": {
+      "path": { "type": "string" },
+      "start_line": { "type": "integer" },
+      "end_line": { "type": "integer" }
+    },
+    "required": ["path"]
+  },
+  "requires_approval": false
+}

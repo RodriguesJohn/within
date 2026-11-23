@@ -1,0 +1,13 @@
+{
+  "name": "run_tests",
+  "description": "Run the test suite or a subset. Returns pass/fail counts and failures.",
+  "input_schema": {
+    "type": "object",
+    "properties": {
+      "filter": { "type": "string", "description": "Test file or name pattern." },
+      "repeat": { "type": "integer", "default": 1, "description": "Run N times to surface flakes." },
+      "env": { "type": "string", "enum": ["local", "ci"], "default": "local" }
+    }
+  },
+  "requires_approval": false
+}

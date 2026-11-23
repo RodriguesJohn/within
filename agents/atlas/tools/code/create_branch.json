@@ -1,0 +1,13 @@
+{
+  "name": "create_branch",
+  "description": "Create and switch to a branch from the base branch.",
+  "input_schema": {
+    "type": "object",
+    "properties": {
+      "name": { "type": "string", "pattern": "^atlas/" },
+      "base": { "type": "string", "default": "main" }
+    },
+    "required": ["name"]
+  },
+  "requires_approval": false
+}

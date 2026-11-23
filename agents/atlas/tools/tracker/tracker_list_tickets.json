@@ -1,0 +1,41 @@
+{
+  "name": "tracker_list_tickets",
+  "description": "List tickets on the board, filtered by column, assignee, team or label. Use it to find related or duplicate work.",
+  "input_schema": {
+    "type": "object",
+    "properties": {
+      "status": {
+        "type": "string",
+        "enum": [
+          "queued",
+          "progress",
+          "stuck",
+          "approval",
+          "review",
+          "done"
+        ]
+      },
+      "assignee": {
+        "type": "string"
+      },
+      "team": {
+        "type": "string"
+      },
+      "label": {
+        "type": "string"
+      },
+      "limit": {
+        "type": "integer",
+        "default": 25
+      }
+    },
+    "required": []
+  },
+  "requires_approval": false,
+  "placeholder": true,
+  "api": {
+    "provider": "tracker",
+    "method": "GET",
+    "endpoint": "/v1/tickets"
+  }
+}

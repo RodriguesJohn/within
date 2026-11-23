@@ -1,0 +1,40 @@
+{
+  "name": "report_progress",
+  "description": "Set or update the step plan and the current step. Call once at the start with the full plan, then each time a step finishes. Updates the ticket's progress bar (step x of n).",
+  "input_schema": {
+    "type": "object",
+    "properties": {
+      "steps": {
+        "type": "array",
+        "items": {
+          "type": "string"
+        },
+        "description": "Full ordered plan. Omit to keep the existing plan."
+      },
+      "step": {
+        "type": "integer",
+        "minimum": 0,
+        "description": "0-based index of the step now active."
+      },
+      "now_doing": {
+        "type": "string",
+        "maxLength": 80,
+        "description": "Plain-language live summary, present tense."
+      },
+      "reason": {
+        "type": "string",
+        "description": "Required when the plan changes after work has started."
+      }
+    },
+    "required": [
+      "step"
+    ]
+  },
+  "requires_approval": false,
+  "placeholder": true,
+  "api": {
+    "provider": "tracker",
+    "method": "PATCH",
+    "endpoint": "/v1/tickets/{ticket_id}/run/progress"
+  }
+}

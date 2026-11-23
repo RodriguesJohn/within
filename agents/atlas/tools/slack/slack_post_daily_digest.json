@@ -1,0 +1,45 @@
+{
+  "name": "slack_post_daily_digest",
+  "description": "Post a once-a-day digest of Atlas's tickets: what's done, what's in review, what's stuck and for how long.",
+  "input_schema": {
+    "type": "object",
+    "properties": {
+      "channel": {
+        "type": "string",
+        "default": "#within-agents"
+      },
+      "items": {
+        "type": "array",
+        "items": {
+          "type": "object",
+          "properties": {
+            "ticket_id": {
+              "type": "string"
+            },
+            "status": {
+              "type": "string"
+            },
+            "line": {
+              "type": "string"
+            }
+          },
+          "required": [
+            "ticket_id",
+            "status",
+            "line"
+          ]
+        }
+      }
+    },
+    "required": [
+      "items"
+    ]
+  },
+  "requires_approval": false,
+  "placeholder": true,
+  "api": {
+    "provider": "slack",
+    "method": "POST",
+    "endpoint": "/chat.postMessage"
+  }
+}

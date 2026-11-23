@@ -1,0 +1,23 @@
+{
+  "name": "tracker_get_ticket",
+  "description": "Fetch a ticket with its description, acceptance criteria, labels, assignee and linked tickets.",
+  "input_schema": {
+    "type": "object",
+    "properties": {
+      "ticket_id": {
+        "type": "string",
+        "description": "Ticket id, e.g. WIT-142"
+      }
+    },
+    "required": [
+      "ticket_id"
+    ]
+  },
+  "requires_approval": false,
+  "placeholder": true,
+  "api": {
+    "provider": "tracker",
+    "method": "GET",
+    "endpoint": "/v1/tickets/{ticket_id}"
+  }
+}

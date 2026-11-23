@@ -1,0 +1,13 @@
+{
+  "name": "run_command",
+  "description": "Run a shell command in the sandboxed checkout (no network except package registries and staging). Returns exit code, stdout, stderr.",
+  "input_schema": {
+    "type": "object",
+    "properties": {
+      "command": { "type": "string" },
+      "timeout_s": { "type": "integer", "default": 120 }
+    },
+    "required": ["command"]
+  },
+  "requires_approval": false
+}

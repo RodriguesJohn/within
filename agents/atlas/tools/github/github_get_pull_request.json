@@ -1,0 +1,27 @@
+{
+  "name": "github_get_pull_request",
+  "description": "Get a PR's state, mergeability, reviewers and review decision.",
+  "input_schema": {
+    "type": "object",
+    "properties": {
+      "repo": {
+        "type": "string",
+        "description": "owner/name, e.g. within/app"
+      },
+      "number": {
+        "type": "integer"
+      }
+    },
+    "required": [
+      "repo",
+      "number"
+    ]
+  },
+  "requires_approval": false,
+  "placeholder": true,
+  "api": {
+    "provider": "github",
+    "method": "GET",
+    "endpoint": "/repos/{owner}/{repo}/pulls/{number}"
+  }
+}

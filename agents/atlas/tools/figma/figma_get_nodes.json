@@ -1,0 +1,30 @@
+{
+  "name": "figma_get_nodes",
+  "description": "Read specific frames/components: layout, spacing, text, colours, and the design tokens they use. Use when implementing a design.",
+  "input_schema": {
+    "type": "object",
+    "properties": {
+      "file_key": {
+        "type": "string",
+        "description": "Figma file key from the URL"
+      },
+      "node_ids": {
+        "type": "array",
+        "items": {
+          "type": "string"
+        }
+      }
+    },
+    "required": [
+      "file_key",
+      "node_ids"
+    ]
+  },
+  "requires_approval": false,
+  "placeholder": true,
+  "api": {
+    "provider": "figma",
+    "method": "GET",
+    "endpoint": "/v1/files/{file_key}/nodes"
+  }
+}

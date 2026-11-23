@@ -1,0 +1,42 @@
+{
+  "name": "figma_export_images",
+  "description": "Render frames to PNG/SVG so the agent can compare its implementation against the design.",
+  "input_schema": {
+    "type": "object",
+    "properties": {
+      "file_key": {
+        "type": "string",
+        "description": "Figma file key from the URL"
+      },
+      "node_ids": {
+        "type": "array",
+        "items": {
+          "type": "string"
+        }
+      },
+      "format": {
+        "type": "string",
+        "enum": [
+          "png",
+          "svg"
+        ],
+        "default": "png"
+      },
+      "scale": {
+        "type": "number",
+        "default": 2
+      }
+    },
+    "required": [
+      "file_key",
+      "node_ids"
+    ]
+  },
+  "requires_approval": false,
+  "placeholder": true,
+  "api": {
+    "provider": "figma",
+    "method": "GET",
+    "endpoint": "/v1/images/{file_key}"
+  }
+}

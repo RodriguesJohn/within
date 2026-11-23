@@ -1,0 +1,27 @@
+{
+  "name": "tracker_get_messages",
+  "description": "Read human messages on the ticket since a given time, including answers to ask_human.",
+  "input_schema": {
+    "type": "object",
+    "properties": {
+      "ticket_id": {
+        "type": "string",
+        "description": "Ticket id, e.g. WIT-142"
+      },
+      "since": {
+        "type": "string",
+        "description": "ISO timestamp"
+      }
+    },
+    "required": [
+      "ticket_id"
+    ]
+  },
+  "requires_approval": false,
+  "placeholder": true,
+  "api": {
+    "provider": "tracker",
+    "method": "GET",
+    "endpoint": "/v1/tickets/{ticket_id}/messages"
+  }
+}

@@ -1,0 +1,12 @@
+{
+  "ticket_id": "WIT-160",
+  "agent": "atlas",
+  "status": "queued",
+  "steps": ["Reproduce flake locally", "Find the race", "Patch and stabilize", "Run 50x in CI", "Open pull request"],
+  "step": 0,
+  "now_doing": null,
+  "log": [{ "t": "10:15", "kind": "start", "text": "Assigned to Atlas" }],
+  "trace": [],
+  "outputs": [],
+  "chat": []
+}

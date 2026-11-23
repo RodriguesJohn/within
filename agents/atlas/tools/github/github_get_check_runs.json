@@ -1,0 +1,28 @@
+{
+  "name": "github_get_check_runs",
+  "description": "Get CI check runs for a commit or branch: names, status, conclusion, log URL.",
+  "input_schema": {
+    "type": "object",
+    "properties": {
+      "repo": {
+        "type": "string",
+        "description": "owner/name, e.g. within/app"
+      },
+      "ref": {
+        "type": "string",
+        "description": "Branch name or commit SHA"
+      }
+    },
+    "required": [
+      "repo",
+      "ref"
+    ]
+  },
+  "requires_approval": false,
+  "placeholder": true,
+  "api": {
+    "provider": "github",
+    "method": "GET",
+    "endpoint": "/repos/{owner}/{repo}/commits/{ref}/check-runs"
+  }
+}

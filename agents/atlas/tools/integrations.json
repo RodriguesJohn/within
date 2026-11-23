@@ -1,0 +1,66 @@
+{
+  "_note": "Placeholders. No integration is live. Tools with placeholder: true return a stub until the provider's status is 'live'.",
+  "providers": {
+    "tracker": {
+      "name": "Within Tracker",
+      "base_url": "https://api.within.app",
+      "auth": {
+        "type": "bearer",
+        "env": "WITHIN_AGENT_TOKEN"
+      },
+      "status": "placeholder",
+      "notes": "Within's own API. Backs the shared tools (progress, status, blockers, messages, outputs) and ticket reads."
+    },
+    "github": {
+      "name": "GitHub",
+      "base_url": "https://api.github.com",
+      "auth": {
+        "type": "github_app",
+        "env": [
+          "GITHUB_APP_ID",
+          "GITHUB_APP_PRIVATE_KEY",
+          "GITHUB_INSTALLATION_ID"
+        ]
+      },
+      "status": "placeholder",
+      "scopes": [
+        "contents:write",
+        "pull_requests:write",
+        "checks:read",
+        "issues:read"
+      ],
+      "notes": "Atlas acts as the 'within-atlas' GitHub App. Branches must start with atlas/."
+    },
+    "figma": {
+      "name": "Figma",
+      "base_url": "https://api.figma.com",
+      "auth": {
+        "type": "token",
+        "header": "X-Figma-Token",
+        "env": "FIGMA_TOKEN"
+      },
+      "status": "placeholder",
+      "scopes": [
+        "file_content:read",
+        "file_comments:write"
+      ],
+      "notes": "Read designs for implementation; comment back with PR links."
+    },
+    "slack": {
+      "name": "Slack",
+      "base_url": "https://slack.com/api",
+      "auth": {
+        "type": "bot_token",
+        "env": "SLACK_BOT_TOKEN"
+      },
+      "status": "placeholder",
+      "scopes": [
+        "chat:write",
+        "channels:history",
+        "im:write"
+      ],
+      "default_channel": "#within-agents",
+      "notes": "Highlights only: stuck, approval, review, done, plus a daily digest. Never routine progress."
+    }
+  }
+}

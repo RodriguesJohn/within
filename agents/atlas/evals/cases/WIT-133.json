@@ -1,0 +1,12 @@
+{
+  "id": "WIT-133",
+  "title": "Public API rate limiting: load-tested PR",
+  "input": "input/WIT-133.json",
+  "output": "output/WIT-133/run.json",
+  "scenario": { "description": "Happy path. Atlas should finish with an open PR and attached load-test results." },
+  "expect": {
+    "final_status": ["review", "done"],
+    "must_call": ["report_progress", "create_branch", "run_command", "open_pull_request", "set_status"],
+    "outputs_include": ["branch", "pr", "file"]
+  }
+}

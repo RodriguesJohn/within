@@ -1,0 +1,10 @@
+{
+  "name": "list_env_vars",
+  "description": "List environment variable NAMES (never values) for a Vercel environment.",
+  "input_schema": {
+    "type": "object",
+    "properties": { "environment": { "type": "string", "enum": ["development", "preview", "staging", "production"] } },
+    "required": ["environment"]
+  },
+  "requires_approval": false
+}

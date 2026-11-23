@@ -1,0 +1,27 @@
+{
+  "name": "github_search_issues",
+  "description": "Search issues and PRs for prior work or related bugs.",
+  "input_schema": {
+    "type": "object",
+    "properties": {
+      "repo": {
+        "type": "string",
+        "description": "owner/name, e.g. within/app"
+      },
+      "query": {
+        "type": "string"
+      }
+    },
+    "required": [
+      "repo",
+      "query"
+    ]
+  },
+  "requires_approval": false,
+  "placeholder": true,
+  "api": {
+    "provider": "github",
+    "method": "GET",
+    "endpoint": "/search/issues"
+  }
+}

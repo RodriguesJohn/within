@@ -1,0 +1,32 @@
+{
+  "name": "slack_notify_person",
+  "description": "DM the person who can unblock or approve. Use together with ask_human when the question is for one specific person.",
+  "input_schema": {
+    "type": "object",
+    "properties": {
+      "ticket_id": {
+        "type": "string",
+        "description": "Ticket id, e.g. WIT-142"
+      },
+      "person": {
+        "type": "string",
+        "description": "Human id from PEOPLE, e.g. 'john'"
+      },
+      "text": {
+        "type": "string"
+      }
+    },
+    "required": [
+      "ticket_id",
+      "person",
+      "text"
+    ]
+  },
+  "requires_approval": false,
+  "placeholder": true,
+  "api": {
+    "provider": "slack",
+    "method": "POST",
+    "endpoint": "/chat.postMessage"
+  }
+}

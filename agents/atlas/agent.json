@@ -1,0 +1,66 @@
+{
+  "id": "atlas",
+  "name": "Atlas",
+  "role": "Code agent",
+  "color": "#2f6bff",
+  "model": "claude-sonnet-5-5",
+  "system_prompt": [
+    "system-prompt/00-shared-context.md",
+    "system-prompt/01-role.md"
+  ],
+  "tools": {
+    "shared": [
+      "ask_human",
+      "attach_output",
+      "handoff",
+      "post_message",
+      "report_progress",
+      "set_status"
+    ],
+    "code": [
+      "create_branch",
+      "edit_file",
+      "list_env_vars",
+      "read_file",
+      "run_command",
+      "run_tests",
+      "search_code"
+    ],
+    "tracker": [
+      "tracker_get_messages",
+      "tracker_get_run",
+      "tracker_get_ticket",
+      "tracker_list_tickets",
+      "tracker_update_ticket"
+    ],
+    "github": [
+      "github_get_check_runs",
+      "github_get_pull_request",
+      "github_list_review_comments",
+      "github_reply_to_review",
+      "github_search_issues",
+      "open_pull_request"
+    ],
+    "figma": [
+      "figma_export_images",
+      "figma_get_comments",
+      "figma_get_file",
+      "figma_get_nodes",
+      "figma_post_comment"
+    ],
+    "slack": [
+      "slack_notify_person",
+      "slack_post_daily_digest",
+      "slack_post_highlight",
+      "slack_read_thread"
+    ]
+  },
+  "input_dir": "input",
+  "output_dir": "output",
+  "evals_dir": "evals",
+  "limits": {
+    "max_tool_calls_per_step": 25,
+    "max_retries_before_asking": 2
+  },
+  "integrations": "tools/integrations.json"
+}

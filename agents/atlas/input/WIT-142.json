@@ -1,0 +1,30 @@
+{
+  "ticket": {
+    "id": "WIT-142",
+    "title": "Add SSO login with Okta",
+    "team": "Platform",
+    "priority": "high",
+    "labels": ["auth"],
+    "description": "Enterprise workspaces need to sign in with Okta. Add Okta as an OIDC provider next to email login, behind the `sso` feature flag.",
+    "acceptance_criteria": [
+      "Workspace admins can enable Okta SSO from settings when the `sso` flag is on",
+      "Users can sign in with Okta and land on their workspace board",
+      "Email login keeps working as a fallback",
+      "Integration tests cover the callback and the invalid_client error path"
+    ]
+  },
+  "assigned_by": "john",
+  "assigned_at": "2026-11-23T10:02:00Z",
+  "context": {
+    "repo": "within/app",
+    "branch_base": "main",
+    "environments": ["staging", "production"],
+    "links": [
+      { "label": "Okta OIDC docs", "url": "https://developer.okta.com/docs/guides/implement-grant-type/authcode/main/" },
+      { "label": "Auth module", "url": "repo://within/app/src/server/auth" }
+    ]
+  },
+  "messages": [
+    { "from": "john", "t": "10:05", "text": "Sounds good. Keep email login as a fallback." }
+  ]
+}

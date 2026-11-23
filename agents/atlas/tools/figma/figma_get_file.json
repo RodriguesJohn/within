@@ -1,0 +1,27 @@
+{
+  "name": "figma_get_file",
+  "description": "Read a Figma file's page and frame structure. Use it to find the frames a ticket links to.",
+  "input_schema": {
+    "type": "object",
+    "properties": {
+      "file_key": {
+        "type": "string",
+        "description": "Figma file key from the URL"
+      },
+      "depth": {
+        "type": "integer",
+        "default": 2
+      }
+    },
+    "required": [
+      "file_key"
+    ]
+  },
+  "requires_approval": false,
+  "placeholder": true,
+  "api": {
+    "provider": "figma",
+    "method": "GET",
+    "endpoint": "/v1/files/{file_key}"
+  }
+}

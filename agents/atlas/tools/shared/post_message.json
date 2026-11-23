@@ -1,0 +1,22 @@
+{
+  "name": "post_message",
+  "description": "Post a short update in the ticket chat. One or two sentences, no filler.",
+  "input_schema": {
+    "type": "object",
+    "properties": {
+      "text": {
+        "type": "string"
+      }
+    },
+    "required": [
+      "text"
+    ]
+  },
+  "requires_approval": false,
+  "placeholder": true,
+  "api": {
+    "provider": "tracker",
+    "method": "POST",
+    "endpoint": "/v1/tickets/{ticket_id}/messages"
+  }
+}

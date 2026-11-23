@@ -1,0 +1,44 @@
+{
+  "name": "ask_human",
+  "description": "Stop and ask a human for help. Sets status to 'stuck', shows the blocker card, and posts the question in chat. Use after two failed attempts, or for any missing secret, access, or decision.",
+  "input_schema": {
+    "type": "object",
+    "properties": {
+      "title": {
+        "type": "string",
+        "maxLength": 60,
+        "description": "Short blocker name, e.g. 'Stripe key rejected (401)'."
+      },
+      "detail": {
+        "type": "string",
+        "description": "What failed and the exact error."
+      },
+      "question": {
+        "type": "string",
+        "description": "The question to the human, phrased so it can be answered in one reply."
+      },
+      "suggestions": {
+        "type": "array",
+        "items": {
+          "type": "string"
+        },
+        "minItems": 1,
+        "maxItems": 3,
+        "description": "One-tap replies, e.g. 'I rotated the key, retry'."
+      }
+    },
+    "required": [
+      "title",
+      "detail",
+      "question",
+      "suggestions"
+    ]
+  },
+  "requires_approval": false,
+  "placeholder": true,
+  "api": {
+    "provider": "tracker",
+    "method": "POST",
+    "endpoint": "/v1/tickets/{ticket_id}/run/blocker"
+  }
+}

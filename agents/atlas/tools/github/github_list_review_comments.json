@@ -1,0 +1,27 @@
+{
+  "name": "github_list_review_comments",
+  "description": "List review comments on a PR so the agent can address feedback.",
+  "input_schema": {
+    "type": "object",
+    "properties": {
+      "repo": {
+        "type": "string",
+        "description": "owner/name, e.g. within/app"
+      },
+      "number": {
+        "type": "integer"
+      }
+    },
+    "required": [
+      "repo",
+      "number"
+    ]
+  },
+  "requires_approval": false,
+  "placeholder": true,
+  "api": {
+    "provider": "github",
+    "method": "GET",
+    "endpoint": "/repos/{owner}/{repo}/pulls/{number}/comments"
+  }
+}

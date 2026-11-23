@@ -1,0 +1,39 @@
+{
+  "name": "handoff",
+  "description": "Called when a human takes over, reassigns, or pauses you. Post a handoff note and stop all work.",
+  "input_schema": {
+    "type": "object",
+    "properties": {
+      "done": {
+        "type": "array",
+        "items": {
+          "type": "string"
+        }
+      },
+      "in_flight": {
+        "type": "array",
+        "items": {
+          "type": "string"
+        }
+      },
+      "next": {
+        "type": "array",
+        "items": {
+          "type": "string"
+        }
+      }
+    },
+    "required": [
+      "done",
+      "in_flight",
+      "next"
+    ]
+  },
+  "requires_approval": false,
+  "placeholder": true,
+  "api": {
+    "provider": "tracker",
+    "method": "POST",
+    "endpoint": "/v1/tickets/{ticket_id}/run/handoff"
+  }
+}

@@ -1,0 +1,47 @@
+{
+  "name": "slack_post_highlight",
+  "description": "Post a highlight to the team channel. Only for moments a human should know about: stuck, needs approval, PR ready for review, done. One message per moment, linking back to the ticket. Never for routine progress.",
+  "input_schema": {
+    "type": "object",
+    "properties": {
+      "ticket_id": {
+        "type": "string",
+        "description": "Ticket id, e.g. WIT-142"
+      },
+      "kind": {
+        "type": "string",
+        "enum": [
+          "stuck",
+          "approval",
+          "review",
+          "done"
+        ]
+      },
+      "headline": {
+        "type": "string",
+        "maxLength": 100,
+        "description": "e.g. 'Atlas is stuck on WIT-142: missing OKTA_CLIENT_SECRET in staging'"
+      },
+      "detail": {
+        "type": "string",
+        "description": "1-2 lines. What happened and what's needed."
+      },
+      "channel": {
+        "type": "string",
+        "default": "#within-agents"
+      }
+    },
+    "required": [
+      "ticket_id",
+      "kind",
+      "headline"
+    ]
+  },
+  "requires_approval": false,
+  "placeholder": true,
+  "api": {
+    "provider": "slack",
+    "method": "POST",
+    "endpoint": "/chat.postMessage"
+  }
+}

@@ -1,0 +1,31 @@
+{
+  "name": "set_status",
+  "description": "Move the ticket to a new status. Use 'review' when work waits on a human review, 'done' when delivered. Use ask_human instead of setting 'stuck' directly.",
+  "input_schema": {
+    "type": "object",
+    "properties": {
+      "status": {
+        "type": "string",
+        "enum": [
+          "progress",
+          "review",
+          "done"
+        ]
+      },
+      "note": {
+        "type": "string",
+        "description": "One-line reason, shown in the activity log."
+      }
+    },
+    "required": [
+      "status"
+    ]
+  },
+  "requires_approval": false,
+  "placeholder": true,
+  "api": {
+    "provider": "tracker",
+    "method": "PATCH",
+    "endpoint": "/v1/tickets/{ticket_id}/run/status"
+  }
+}

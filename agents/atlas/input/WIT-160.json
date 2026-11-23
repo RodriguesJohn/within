@@ -1,0 +1,23 @@
+{
+  "ticket": {
+    "id": "WIT-160",
+    "title": "Fix flaky checkout e2e test",
+    "team": "Platform",
+    "priority": "high",
+    "labels": ["tests"],
+    "description": "`checkout.spec.ts > completes purchase with saved card` fails about 1 in 8 CI runs with a timeout waiting for the confirmation toast.",
+    "acceptance_criteria": [
+      "Root cause identified and explained in the PR",
+      "Test passes 50 consecutive CI runs",
+      "No `waitForTimeout` added to hide the race"
+    ]
+  },
+  "assigned_by": "dev",
+  "assigned_at": "2026-11-23T10:15:00Z",
+  "context": {
+    "repo": "within/app",
+    "branch_base": "main",
+    "links": [{ "label": "Last 20 CI runs", "url": "https://github.com/within/app/actions/workflows/e2e.yml" }]
+  },
+  "messages": []
+}

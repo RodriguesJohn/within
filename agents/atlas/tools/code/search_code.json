@@ -1,0 +1,14 @@
+{
+  "name": "search_code",
+  "description": "Search the repository with a regex. Returns matching file paths and line snippets.",
+  "input_schema": {
+    "type": "object",
+    "properties": {
+      "pattern": { "type": "string" },
+      "path": { "type": "string", "description": "Directory to limit the search to." },
+      "max_results": { "type": "integer", "default": 50 }
+    },
+    "required": ["pattern"]
+  },
+  "requires_approval": false
+}
