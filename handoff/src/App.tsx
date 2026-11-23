@@ -22,8 +22,8 @@ import {
 } from "lucide-react"
 import { siFigma, siGithub, type SimpleIcon } from "simple-icons"
 
-import cursorLog from "../../docs/CHAT_LOG_2026-11-23.md?raw"
 import brief from "../../PROJECT_KNOWLEDGE_BASE.md?raw"
+import sessionLog from "@/data/sessions.json"
 import { Button } from "@/components/ui/button"
 import { Separator } from "@/components/ui/separator"
 import {
@@ -32,7 +32,6 @@ import {
   BRIEF,
   buildTools,
   CHAT_LOG,
-  chatLog,
   figma,
   linkCards,
   MIND_MAP_URL,
@@ -303,25 +302,9 @@ function Sidebar({
       )}
     >
       <div className="flex items-center justify-between gap-2 px-5 pt-6 pb-5">
-        <div className="flex items-start gap-3">
-          <img
-            src="/within-logo.png"
-            alt="Within"
-            className="mt-px h-7 w-auto shrink-0"
-          />
-          <div className="flex min-w-0 flex-col gap-1.5">
-            <p className="type-card-title leading-none">Within interview</p>
-            <div className="flex items-center gap-1.5 leading-none">
-              <img
-                src="/john.jpg"
-                alt=""
-                className="size-4 shrink-0 rounded-full object-cover object-top"
-              />
-              <span className="type-label leading-none text-muted-foreground">
-                John Rodrigues
-              </span>
-            </div>
-          </div>
+        <div className="flex items-center gap-2.5">
+          <img src="/within-logo.png" alt="" className="h-6 w-auto shrink-0" />
+          <p className="type-section leading-none">Within</p>
         </div>
         <Button
           variant="ghost"
@@ -347,6 +330,13 @@ function Sidebar({
           active={route === WORKFLOW}
           icon={WorkflowIcon}
           label="Workflow"
+          onNavigate={onClose}
+        />
+        <NavItem
+          href={`#${CHAT_LOG}`}
+          active={route === CHAT_LOG}
+          icon={MessagesSquareIcon}
+          label="Chat log"
           onNavigate={onClose}
         />
         <NavItem
@@ -467,7 +457,25 @@ function LinkItem({ link }: { link: Link }) {
 function Overview() {
   return (
     <div className="flex flex-col gap-10">
-      <PageHeader title={project.title}>{project.oneLiner}</PageHeader>
+      <header className="flex enter flex-col gap-5" style={enter(0)}>
+        <div className="flex flex-col gap-2">
+          <h1 className="type-page-title">{project.title}</h1>
+          <p className="flex items-center gap-2 type-label text-muted-foreground">
+            <img
+              src="/john.jpg"
+              alt=""
+              className="size-6 shrink-0 rounded-full object-cover object-top"
+            />
+            by John Rodrigues
+          </p>
+        </div>
+        <div className={cn(SURFACE, "flex flex-col gap-1 p-5")}>
+          <h2 className="type-card-title">The challenge</h2>
+          <p className="max-w-[62ch] type-label text-muted-foreground">
+            {project.oneLiner}
+          </p>
+        </div>
+      </header>
 
       <Section index={1} title="Links">
         <div className="grid gap-4 sm:grid-cols-2">
@@ -771,44 +779,6 @@ function Brief() {
 
 // ── Chat log ──────────────────────────────────────────────────────────────────
 
-type Turn = { speaker: string; time?: string; body: string }
-
-/**
- * Splits the Cursor chat log (docs/CHAT_LOG_2026-11-23.md) into an intro, the turns,
- * and the closing note about the parallel session. Session-id links point into Cursor,
- * so they render as plain text.
- */
-function parseCursorLog(raw: string) {
-  const clean = raw
-    .replace(/^Session id:.*$/m, "")
-    .replace(/\[([^\]]+)\]\([0-9a-f-]{36}\)/g, "$1")
-  const blocks = clean
-    .split(/\n---\n/)
-    .map((b) => b.trim())
-    .filter(Boolean)
-  const intro = blocks[0].replace(/^#\s.*$/m, "").trim()
-  const turns: Turn[] = []
-  let note: { title: string; body: string } | null = null
-
-  for (const block of blocks.slice(1)) {
-    const m = block.match(/^##\s+(.+)\n([\s\S]*)$/)
-    if (!m) continue
-    const [, heading, body] = m
-    const [speaker, time] = heading.split("·").map((x) => x.trim())
-    if (speaker === "You" || speaker === "Assistant") {
-      turns.push({ speaker, time, body: body.trim() })
-    } else {
-      note = {
-        title: heading.replace(/^Also today\s*[—-]\s*/, ""),
-        body: body.trim(),
-      }
-    }
-  }
-  return { intro, turns, note }
-}
-
-const cursor = parseCursorLog(cursorLog)
-
 const chatMd: Components = {
   ...md,
   p: ({ children }) => <p className="text-sm leading-6">{children}</p>,
@@ -884,92 +854,95 @@ function AssistantTurn({ body }: { body: string }) {
   )
 }
 
-function CursorTranscript() {
+type Session = (typeof sessionLog.sessions)[number]
+
+function SessionThread({
+  session,
+  defaultOpen,
+}: {
+  session: Session
+  defaultOpen: boolean
+}) {
+  const [open, setOpen] = useState(defaultOpen)
+  const count = session.turns.length
+
   return (
-    <div className="flex flex-col gap-6">
-      <ol className="flex flex-col gap-5">
-        {cursor.turns.map((turn, i) =>
-          turn.speaker === "You" ? (
-            <li key={i} className="flex flex-col items-end gap-1">
-              <div className="max-w-[85%] rounded-2xl rounded-br-md bg-primary px-4 py-2.5 text-primary-foreground [&_strong]:text-primary-foreground">
-                <ReactMarkdown remarkPlugins={[remarkGfm]} components={chatMd}>
-                  {turn.body}
-                </ReactMarkdown>
-              </div>
-              {turn.time && (
+    <section className="flex flex-col gap-4">
+      <button
+        type="button"
+        onClick={() => setOpen((o) => !o)}
+        aria-expanded={open}
+        className={cn(
+          SURFACE,
+          "group flex items-center gap-3 px-5 py-4 text-left outline-none focus-visible:ring-3 focus-visible:ring-ring/50"
+        )}
+      >
+        <div className="flex min-w-0 flex-1 flex-col">
+          <span className="truncate type-card-title">{session.title}</span>
+          <span className="type-meta text-muted-foreground tabular-nums">
+            {session.started} · {count} message{count > 1 ? "s" : ""}
+          </span>
+        </div>
+        <ChevronRightIcon
+          className={cn(
+            "size-4 shrink-0 text-muted-foreground transition-transform duration-200",
+            open && "rotate-90"
+          )}
+        />
+      </button>
+
+      {open && (
+        <ol className="flex flex-col gap-5 pb-4">
+          {session.turns.map((turn, i) => (
+            <li key={i} className="flex flex-col gap-3">
+              <div className="flex flex-col items-end gap-1">
+                <div className="max-w-[85%] rounded-2xl rounded-br-md bg-primary px-4 py-2.5 text-sm leading-6 whitespace-pre-line text-primary-foreground">
+                  {turn.prompt}
+                </div>
                 <span className="type-meta text-muted-foreground tabular-nums">
                   {turn.time}
                 </span>
+              </div>
+              {turn.reply && (
+                <div className="max-w-[92%]">
+                  <AssistantTurn body={turn.reply} />
+                </div>
               )}
             </li>
-          ) : (
-            <li key={i} className="max-w-[92%]">
-              <AssistantTurn body={turn.body} />
-            </li>
-          )
-        )}
-      </ol>
-      {cursor.note && (
-        <aside className="flex flex-col gap-2 rounded-xl bg-muted p-5">
-          <h3 className="type-card-title">{cursor.note.title}</h3>
-          <div className="flex flex-col gap-2 text-muted-foreground">
-            <ReactMarkdown remarkPlugins={[remarkGfm]} components={chatMd}>
-              {cursor.note.body}
-            </ReactMarkdown>
-          </div>
-        </aside>
+          ))}
+        </ol>
       )}
-    </div>
+    </section>
   )
 }
 
-function ClaudeTranscript() {
-  return (
-    <ol className="flex flex-col gap-4">
-      {chatLog.entries.map((entry, i) => (
-        <li
-          key={entry.asked}
-          className={cn(SURFACE, "flex flex-col gap-3 p-5")}
-        >
-          <div className="flex gap-3">
-            <span className="pt-0.5 type-meta text-muted-foreground tabular-nums">
-              {String(i + 1).padStart(2, "0")}
-            </span>
-            <p className="min-w-0 flex-1 type-body">{entry.asked}</p>
-          </div>
-          <ul className="flex flex-col gap-1 pl-8">
-            {entry.changed.map((c) => (
-              <li
-                key={c}
-                className="flex gap-2 type-label text-muted-foreground"
-              >
-                <CheckIcon className="mt-0.5 size-3.5 shrink-0 text-success" />
-                {c}
-              </li>
-            ))}
-          </ul>
-        </li>
-      ))}
-    </ol>
-  )
-}
+type Tool = "Cursor" | "Claude Code"
 
 function ChatLog() {
-  const [tab, setTab] = useState<"cursor" | "claude">("cursor")
+  const [tool, setTool] = useState<Tool>("Cursor")
+  const sessions = sessionLog.sessions.filter((x) => x.tool === tool)
 
   return (
     <div className="flex flex-col gap-8">
-      <PageHeader title="Chat log">Nov 23, 2026</PageHeader>
+      <PageHeader title="Chat log">{sessionLog.date}</PageHeader>
       <div className="flex enter flex-col gap-6" style={enter(1)}>
         <Segmented
-          value={tab}
-          onChange={setTab}
+          value={tool}
+          onChange={setTool}
           options={[
-            { value: "cursor", label: "Cursor" },
-            { value: "claude", label: "Claude Code" },
+            { value: "Cursor", label: "Cursor" },
+            { value: "Claude Code", label: "Claude Code" },
           ]}
         />
-        {tab === "cursor" ? <CursorTranscript /> : <ClaudeTranscript />}
+        <div className="flex flex-col gap-4">
+          {sessions.map((session, i) => (
+            <SessionThread
+              key={session.id}
+              session={session}
+              defaultOpen={i === 0}
+            />
+          ))}
+        </div>
       </div>
     </div>
   )
@@ -1178,7 +1151,7 @@ export function App() {
           >
             <MenuIcon />
           </Button>
-          <p className="type-section">Within interview</p>
+          <p className="type-section">Within</p>
         </div>
 
         {embed ? (

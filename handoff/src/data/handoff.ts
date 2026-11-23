@@ -3,10 +3,12 @@
 import {
   siClaude,
   siCursor,
+  siGithub,
   siFigma,
   siReact,
   siShadcnui,
   siTailwindcss,
+  siVercel,
   type SimpleIcon,
 } from "simple-icons"
 
@@ -65,7 +67,7 @@ export const prototypes: Prototype[] = [
   {
     id: "prototype-1",
     title: "Prototype 1",
-    url: "http://localhost:5173",
+    url: "https://within-prototype.vercel.app",
     name: "Board, Linear style",
     idea: "Agents sit on the same board as people, and an inbox surfaces what needs a human.",
     tradeoff: "Matches how teams already work, and scales to a lot of tickets.",
@@ -173,6 +175,8 @@ export const tools: Tool[] = [
   { name: "React", icon: siReact },
   { name: "Tailwind", icon: siTailwindcss },
   { name: "shadcn/ui", icon: siShadcnui },
+  { name: "GitHub", icon: siGithub },
+  { name: "Vercel", icon: siVercel },
 ]
 
 export const buildTools = ["Figma", "Cursor", "Claude Code"]
@@ -207,131 +211,5 @@ export const agentCriteria = [
     detail: "Meets the ticket's acceptance criteria and opens a reviewable PR.",
   },
 ]
-
-// ── Chat log: how the page took shape ──────────────────────────────────────
-
-export type ChatEntry = { asked: string; changed: string[] }
-
-export const chatLog: { date: string; source: string; entries: ChatEntry[] } = {
-  date: "Nov 23, 2026",
-  source: "Claude Code",
-  entries: [
-    {
-      asked: "Start the local dev server.",
-      changed: ["Started the page locally."],
-    },
-    {
-      asked:
-        "Dark mode, drop the eyebrow text, use Inter and my personal finance design system. Add an overview with all the links.",
-      changed: [
-        "Switched to the design system's tokens and type scale, with Inter.",
-        "Removed the small uppercase labels above titles.",
-        "Added a links section to the overview.",
-      ],
-    },
-    {
-      asked:
-        "Sidebar should be Overview, Figma, then App with Prototype 1, 2 and 3. I should be able to see what we built.",
-      changed: [
-        "Rebuilt the sidebar around Overview, Figma and App.",
-        "Embedded the working app inside the page as Prototype 1.",
-      ],
-    },
-    {
-      asked:
-        "Keep it simple. Title, one-liner, plain links in four cards: Design, App, Product, Code. Add a process and tools card with logos, and a workflow.",
-      changed: [
-        "Cut the overview down to the title, two-by-two link cards and a process card.",
-        "Added tool logos and a Workflow page.",
-      ],
-    },
-    {
-      asked:
-        "Light mode, link icons, softer shadows. Explain why I picked this direction over chat, voice and notifications. Add the Figma Desktop MCP.",
-      changed: [
-        "Moved to light mode with soft-shadow cards.",
-        "Added an icon to every link and an arrow where you can click.",
-        "Added the four directions with their trade-offs.",
-      ],
-    },
-    {
-      asked:
-        "The workflow should be mine: FigJam mind map, picking the medium, building with Figma, Cursor and Claude Code, then designing the agent with inputs, outputs and evals.",
-      changed: [
-        "Rewrote the workflow as four steps in my words.",
-        "Added the agent's input, tools, output and evals, with its key criteria.",
-        "Removed card outlines and trimmed the text.",
-      ],
-    },
-    {
-      asked:
-        "Prototype 1 in dark mode by default. Embed the Figma board. Colour the logos.",
-      changed: [
-        "Prototype 1 now opens in dark mode.",
-        "The Design Within board opens inside the page.",
-        "Tool logos use their brand colours.",
-      ],
-    },
-    {
-      asked:
-        "Only Prototype 1 exists. Describe the other directions instead, show Prototype 4 as a desktop notification, and replace specs and decisions with this chat log.",
-      changed: [
-        "Prototypes 2 to 4 are now concept pages marked as potential directions.",
-        "Prototype 4 shows how notifications would surface on the desktop.",
-        "Added the project brief and this chat log.",
-      ],
-    },
-    {
-      asked:
-        "Use the design challenge as the brief, call the design link Figma whiteboard, and frame the voice and notification trade-offs as cognitive overload.",
-      changed: [
-        "The overview now opens with the challenge as Within wrote it.",
-        "Renamed the design link to Figma whiteboard.",
-        "Voice and Notifications only now name cognitive overload as the trade-off.",
-      ],
-    },
-    {
-      asked:
-        "Show a preview of the mind map, and make the Prototype 1 chat less dense.",
-      changed: [
-        "The workflow now embeds the mind map from the FigJam board.",
-        "Chat messages share one plain style, with actions as quiet buttons underneath.",
-        "Removed the status labels and monospace IDs from the chat.",
-      ],
-    },
-    {
-      asked:
-        "There's no Within repo or Atlas link. Code should just be my GitHub.",
-      changed: ["The Code card now has a single GitHub link."],
-    },
-    {
-      asked:
-        "Drop the word handoff. Say Within interview and my name, add my photo and the Within logo.",
-      changed: [
-        "The header now reads Within interview, John Rodrigues.",
-        "Added the Within logo and my profile photo.",
-      ],
-    },
-    {
-      asked: "Put my Cursor chat log from today on the Chat log page.",
-      changed: [
-        "The Chat log page now shows the Cursor session too, as a conversation.",
-      ],
-    },
-    {
-      asked: "Too text heavy at the top of the chat log.",
-      changed: [
-        "Cut the chat log intro, shortened the tabs, and folded long replies behind Show more.",
-      ],
-    },
-    {
-      asked:
-        "Create a GitHub repo for this project and link it from the Code card.",
-      changed: [
-        "Pushed the project to GitHub and pointed the Code link at the repo.",
-      ],
-    },
-  ],
-}
 
 export const allLinks = linkCards.flatMap((card) => card.links)
