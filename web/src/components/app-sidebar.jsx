@@ -203,7 +203,7 @@ export function AppSidebar({ tickets, items, view, setView, agentFilter, setAgen
                       isActive={agentFilter === id}
                       onClick={() => setAgentFilter(agentFilter === id ? null : id)}
                     >
-                      <AgentAvatar id={id} size="sm" className="size-4! text-[8px]" />
+                      <AgentAvatar id={id} size="sm" className="size-4! [&_[data-slot=avatar-fallback]]:text-[7px]! [&_[data-slot=avatar-fallback]]:tracking-tighter" />
                       <span>{PEOPLE[id].name}</span>
                     </SidebarMenuButton>
                     <SidebarMenuBadge className={cn('font-normal', TEAMMATE_STATE[state].className)}>{TEAMMATE_STATE[state].label}</SidebarMenuBadge>
