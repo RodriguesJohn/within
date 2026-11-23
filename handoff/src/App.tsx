@@ -286,10 +286,13 @@ function NavItem({
 function Sidebar({
   route,
   open,
+  compact,
   onClose,
 }: {
   route: string
   open: boolean
+  /** Narrower on the embed pages so the prototype gets the room. */
+  compact: boolean
   onClose: () => void
 }) {
   const inApp = prototypes.some((p) => p.id === route)
@@ -297,11 +300,17 @@ function Sidebar({
   return (
     <aside
       className={cn(
-        "fixed inset-y-0 left-0 z-30 flex w-60 shrink-0 flex-col bg-sidebar text-sidebar-foreground transition-transform duration-300 ease-[cubic-bezier(0.22,1,0.36,1)] md:sticky md:top-0 md:h-svh md:translate-x-0",
+        "fixed inset-y-0 left-0 z-30 flex w-60 shrink-0 flex-col bg-sidebar text-sidebar-foreground transition-[transform,width] duration-300 ease-[cubic-bezier(0.22,1,0.36,1)] md:sticky md:top-0 md:h-svh md:translate-x-0",
+        compact && "md:w-48",
         open ? "translate-x-0" : "-translate-x-full"
       )}
     >
-      <div className="flex items-center justify-between gap-2 px-5 pt-6 pb-5">
+      <div
+        className={cn(
+          "flex items-center justify-between gap-2 pt-6 pb-5",
+          compact ? "px-4" : "px-5"
+        )}
+      >
         <div className="flex items-center gap-2.5">
           <img src="/within-logo.png" alt="" className="h-6 w-auto shrink-0" />
           <div className="flex min-w-0 flex-col gap-1">
@@ -322,7 +331,12 @@ function Sidebar({
         </Button>
       </div>
 
-      <nav className="flex min-h-0 flex-1 flex-col gap-0.5 overflow-y-auto px-3 pb-4">
+      <nav
+        className={cn(
+          "flex min-h-0 flex-1 flex-col gap-0.5 overflow-y-auto pb-4",
+          compact ? "px-2" : "px-3"
+        )}
+      >
         <NavItem
           href={`#${OVERVIEW}`}
           active={route === OVERVIEW}
@@ -1130,6 +1144,7 @@ export function App() {
       <Sidebar
         route={route}
         open={menuOpen}
+        compact={Boolean(embed)}
         onClose={() => setMenuOpen(false)}
       />
       {menuOpen && (
