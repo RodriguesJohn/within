@@ -89,7 +89,7 @@ function SystemLine({ m }) {
     <div className="flex items-center gap-2 text-xs text-muted-foreground">
       <Separator className="flex-1" />
       <span>{m.text}</span>
-      <time className="font-mono text-[10px]">{m.t}</time>
+      <time className="tabular-nums">{m.t}</time>
       <Separator className="flex-1" />
     </div>
   )
@@ -101,75 +101,53 @@ function UserBubble({ m }) {
       <div className="max-w-[85%] rounded-2xl rounded-br-sm bg-primary px-3 py-2 text-sm text-primary-foreground">
         <Rich text={m.text} />
       </div>
-      <time className="font-mono text-[10px] text-muted-foreground">{m.t}</time>
+      <time className="text-[11px] text-muted-foreground tabular-nums">{m.t}</time>
     </div>
   )
 }
 
 function MessageMeta({ author, ticket, t, showTicket, onOpen }) {
   return (
-    <div className="flex items-center gap-1.5 text-xs">
+    <div className="flex items-baseline gap-1.5 text-xs text-muted-foreground">
       <span className="font-medium text-foreground">{author.name}</span>
       {showTicket && (
         <button
           type="button"
           onClick={() => onOpen(ticket.id)}
           title={ticket.title}
-          className="font-mono text-[11px] text-muted-foreground hover:text-foreground hover:underline"
+          className="hover:text-foreground hover:underline"
         >
           {ticket.id}
         </button>
       )}
-      <time className="ml-auto font-mono text-[10px] text-muted-foreground">{t}</time>
+      <time className="ml-auto tabular-nums">{t}</time>
     </div>
   )
 }
 
 // `grouped`: same author + ticket as the message above, so the name line is dropped.
+// Every agent message has the same shape. Messages that need a person just add their
+// actions underneath, so the thread reads as one calm column instead of a stack of cards.
 export function ChatMessage({ m, ticket, item, actions, onOpen, onReply, showTicket = false, grouped = false }) {
   if (m.from === 'system') return <SystemLine m={m} />
   if (m.from === 'user') return <UserBubble m={m} />
   const author = PEOPLE[m.by ?? ticket.prevAgent ?? ticket.assignee]
   const meta = { author, ticket, t: m.t, showTicket, onOpen }
-
-  // Action card: everything (who, which ticket, what's needed, actions) lives inside the card.
-  if (item || m.kind === 'question') {
-    return (
-      <div className="flex gap-2.5 animate-in fade-in-0 slide-in-from-bottom-1">
-        <AgentAvatar id={author.id} size="sm" />
-        <div
-          className={cn(
-            'min-w-0 flex-1 overflow-hidden rounded-lg border bg-card text-card-foreground shadow-xs',
-            item && ITEM_KIND[item.kind].group === 'blocked' && 'border-status-approval/40 dark:border-status-approval/30',
-          )}
-        >
-          <div className="flex flex-col gap-1 px-3 pt-2 pb-2.5">
-            <MessageMeta {...meta} />
-            <p className="text-sm">
-              <Rich text={m.text} />
-            </p>
-          </div>
-          {item && (
-            <div className="flex items-center gap-2 border-t bg-muted/40 py-1 pr-1.5 pl-3 dark:bg-muted/20">
-              <ItemKindBadge kind={item.kind} />
-              <div className="ml-auto">
-                <ItemActions item={item} ticket={ticket} actions={actions} onOpen={onOpen} onReply={onReply} />
-              </div>
-            </div>
-          )}
-        </div>
-      </div>
-    )
-  }
+  const needsYou = Boolean(item)
 
   return (
-    <div className={cn('flex gap-2.5 animate-in fade-in-0 slide-in-from-bottom-1', grouped && '-mt-2.5')}>
-      {grouped ? <span className="w-6 shrink-0" /> : <AgentAvatar id={author.id} size="sm" />}
-      <div className="flex min-w-0 flex-1 flex-col gap-0.5">
-        {!grouped && <MessageMeta {...meta} />}
-        <p className="text-sm text-foreground/85">
+    <div className={cn('flex gap-2.5 animate-in fade-in-0 slide-in-from-bottom-1', grouped && !needsYou && '-mt-2.5')}>
+      {grouped && !needsYou ? <span className="w-6 shrink-0" /> : <AgentAvatar id={author.id} size="sm" />}
+      <div className="flex min-w-0 flex-1 flex-col gap-1">
+        {(!grouped || needsYou) && <MessageMeta {...meta} />}
+        <p className={cn('text-sm', needsYou ? 'text-foreground' : 'text-foreground/80')}>
           <Rich text={m.text} />
         </p>
+        {item && (
+          <div className="-ml-2 pt-0.5 [&>div]:justify-start">
+            <ItemActions item={item} ticket={ticket} actions={actions} onOpen={onOpen} onReply={onReply} />
+          </div>
+        )}
       </div>
     </div>
   )
@@ -281,7 +259,7 @@ export function TicketThread({ ticket, item, actions, onOpen, focusKey }) {
   return (
     <div className="flex min-h-0 flex-1 flex-col">
       <ScrollArea className={THREAD_SCROLL}>
-        <div className="flex flex-col gap-4 p-4">
+        <div className="flex flex-col gap-5 p-4">
           {ticket.chat.length === 0 && !item && (
             <Empty className="py-10">
               <EmptyHeader>
@@ -351,7 +329,7 @@ function WithinMessage({ m, byId, onOpen }) {
       <div className="min-w-0 flex-1">
         <div className="mb-0.5 flex items-center gap-2">
           <span className="text-sm font-medium">Within</span>
-          <time className="font-mono text-[10px] text-muted-foreground">{m.t}</time>
+          <time className="text-[11px] text-muted-foreground tabular-nums">{m.t}</time>
         </div>
         <p className="text-sm whitespace-pre-line text-foreground/85">{m.text}</p>
         {m.tickets?.length > 0 && (
@@ -385,7 +363,7 @@ export function AllAgentsThread({ tickets, items, actions, onOpen, focusKey, tar
   return (
     <div className="flex min-h-0 flex-1 flex-col">
       <ScrollArea className={THREAD_SCROLL}>
-        <div className="flex flex-col gap-4 p-4">
+        <div className="flex flex-col gap-5 p-4">
           {feed.map(({ m, ticket, item }, i) => {
             if (!ticket) {
               return m.from === 'user' ? (

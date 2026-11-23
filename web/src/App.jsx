@@ -116,7 +116,7 @@ export default function App() {
   const [view, setView] = useState('inbox')
   const [agentFilter, setAgentFilter] = useState(null)
   const [query, setQuery] = useState('')
-  const [dark, setDark] = useState(false)
+  const [dark, setDark] = useState(true)
   const [dockOpen, setDockOpen] = useState(() => window.innerWidth >= 1024)
   const [dockScope, setDockScope] = useState('all')
   const [focusKey, setFocusKey] = useState(0)
