@@ -304,7 +304,12 @@ function Sidebar({
       <div className="flex items-center justify-between gap-2 px-5 pt-6 pb-5">
         <div className="flex items-center gap-2.5">
           <img src="/within-logo.png" alt="" className="h-6 w-auto shrink-0" />
-          <p className="type-section leading-none">Within</p>
+          <div className="flex min-w-0 flex-col gap-1">
+            <p className="type-section leading-none">Within</p>
+            <p className="type-meta leading-none text-muted-foreground">
+              Design live session
+            </p>
+          </div>
         </div>
         <Button
           variant="ghost"
@@ -1152,7 +1157,12 @@ export function App() {
           >
             <MenuIcon />
           </Button>
-          <p className="type-section">Within</p>
+          <p className="type-section">
+            Within{" "}
+            <span className="type-meta text-muted-foreground">
+              · Design live session
+            </span>
+          </p>
         </div>
 
         {embed ? (
